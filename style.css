@@ -1,0 +1,56 @@
+@media (max-width: 1498px) { 
+    #page-container {
+        border-left: none;
+        border-right: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+#page-container {
+    min-height: 100%;
+    margin: 0 auto;
+    background: white;
+}
+
+#container {
+    margin: 0px;
+}
+
+#left-bar {
+    dispaly: inline-block;
+}
+
+#middle {
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    dispaly: inline-block;
+}
+
+#right-bar {
+    dispaly: inline-block;
+}
+
+.page-title {
+    margin: 0px;
+    background: red;
+}
+
+h3 {
+    margin: 0px;
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+    margin: 0px;
+}
+
+.col-6 {
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.row {
+    height: 100vh;
+}
