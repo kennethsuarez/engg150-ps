@@ -25,13 +25,29 @@
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
     display: inline-block;
+    height: 100%;
 }
 
 #right-bar {
     display: inline-block;
 }
 
-.student-work, .student-questions, .feedback-select {
+.page-title {
+    margin: 0px;
+    background: rgb(88, 248, 128);
+}
+
+.row {
+    height: 93vh;
+    width: 100vw;
+}
+
+.col-6 {
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.student-work-box, .student-questions-box, .feedback-box {
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
@@ -39,14 +55,18 @@
     background-color: rgba(255, 255, 255, 0.829);
     border: 1px solid #ccc;
     border-radius: 10px;
-    height: 25%;
+    height: 24%;
     overflow-x: auto;
     overflow: hidden;
     align-content: space-between;
     justify-content: center;
+    margin-bottom: 1em;
+}
+.feedback-box{
+    margin-bottom: 0;
 }
 
-.question-given, .student-solution, .prev-feedback-container, .feedback-box, .chat-box {
+.question-given, .student-solution, .prev-feedback-container, .feedback-text-container, .chat-box {
     background-color: #f0f0f0;
     border-radius: 8px;
     width: 40%;
@@ -69,6 +89,8 @@
 .feedback-text{
     width: 100%;
     height: 75%;
+    resize: none;
+    border-color: #ccc;
 }
 
 .chat-box {
@@ -115,32 +137,23 @@
     text-align: center;
 }
 
-.submit-btn{
+.submit-button, .probset-button, .question-button{
     display: block;
+    margin-top: 1em;
     margin-left: auto;
     margin-right: auto; 
-}
-
-.probset-button{
-    display: block;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto; 
+    margin-bottom: 1em;
     width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
-.question-button{
-    display: block;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto; 
-    width: 80%;
+.submit-button{
+    margin-top: 0;
+    width: 10em;
 }
 
-.page-title {
-    margin: 0px;
-    background: rgb(88, 248, 128);
-}
+
 
 .question-given-body, .student-solution-body{
   font-size: 14px;
@@ -159,11 +172,5 @@ h4 {
     margin: 0px;
 }
 
-.col-6 {
-    border-right: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-}
 
-.row {
-    height: 100vh;
-}
+
