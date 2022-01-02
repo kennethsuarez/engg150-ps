@@ -1,31 +1,48 @@
-class NaiveBayes {
-    constructor(alpha) {
-        // set as 1 to resolve issues with 0 occurrences
-        this.alpha = alpha 
+class FeatureSet {
+    constructor() {
+        this.vocab = {} // nk per word
+        this.attributes = []
+        this.n = 0 // number of words in class
+        this.prob = {} // likelihood computation
     }
-
-    // X - features, y - label
-    fit(X, y) {
-
-    }
-}
-
-class WordCount {
-    get_vocab(docs, stop_words) {
+    generate_vocab(docs, stop_words) {
         let vocab = {};
-
+        let attributes = [];
+        let n = 0;
         docs.forEach(function(doc) {
-            let words = doc.replace(/[.]/g, '').split(/\s/);
+            let words = doc.replace(/[.?,]/g, '').split(/\s/);
             words.forEach(function(word) {
                 // filter stop words
-                if (!stop_words.includes(word)) {
+                if (!stop_words.includes(word.toLowerCase())) {
                     if (!vocab[word]) {
                         vocab[word] = 0;
+                        attributes.push(word)
                     }
                     vocab[word] += 1;
                 }
             });
         });
+
+        for (let key in vocab){
+            n += vocab[key];
+        }
+
+        this.vocab = vocab;
+        this.attributes = attributes;
+        this.n = n;
+    }
+    generate_prob(V) {
+        let prob = {};
+        for (let key of V) {
+            // (nk+1)/(n+|V|)
+            if (!prob[key]) {    
+                prob[key] = (0 + 1)/(this.n + V.length)
+            } else {
+                prob[key] = (this.vocab[key] + 1)/(this.n + V.length)
+            }
+        }
+
+        this.prob = prob;
     }
 }
 
@@ -45,14 +62,49 @@ const stop_words = [
 
 let capacitor_feedback = [
     "when the current through the capacitor is the same as when the capacitor is discharged.",
+    "What is the total equivalent capacitance?"
 ]
 let voltage_feedback = [
     "All of the current flowing through the circuit will go through R5, since it is not in parallel with anything. To find the current flowing through the circuit, we will need to first find the total equivalen resistance of the circuit.",
 ];
-let data = new WordCount(1);
 
-let capacitor_vocab = data.get_vocab(capacitor_feedback, stop_words);
-let voltage_vocab = data.get_vocab(voltage_feedback, stop_words);
+let capacitor = new FeatureSet();
+let voltage = new FeatureSet();
 
-console.log(capacitor_vocab);
-console.log(voltage_vocab);
+capacitor.generate_vocab(capacitor_feedback, stop_words);
+voltage.generate_vocab(voltage_feedback, stop_words);
+
+let V = [...capacitor.attributes, ...voltage.attributes]; // all words
+
+let data = "How much charge is on a capacitor if it stores 0.0075j of energy when it is connected to a 50V source?"
+
+let words = data.replace(/[.?,]/g, '').split(/\s/);
+
+let c = capacitor_feedback.length;
+let v = voltage_feedback.length;
+// classifying capacitor
+let P_c = c / (c+v)
+capacitor.generate_prob(V);
+words.forEach(function(word) {
+    if (!stop_words.includes(word.toLowerCase())) {
+        if(V.includes(word)) {   
+           
+            P_c *= capacitor.prob[word];
+        }
+    }
+})
+console.log(P_c)
+
+// classifying voltage
+let P_v = v / (c+v)
+voltage.generate_prob(V);
+words.forEach(function(word) {
+    if (!stop_words.includes(word.toLowerCase())) {
+        if(V.includes(word)) {   
+            P_v *= voltage.prob[word];
+        }
+    }
+})
+console.log(P_v)
+
+// check if P_c > P_v
