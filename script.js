@@ -108,3 +108,39 @@ words.forEach(function(word) {
 console.log(P_v)
 
 // check if P_c > P_v
+
+const sendBtn = document.querySelector(".submit-button");
+const feedbackText = document.querySelector(".feedback-text");
+const chatBox = document.querySelector(".chat-box");
+
+function sendMsg(){
+    chatBox.innerHTML += `
+    <div class="chat-row">
+        <div class="prof-chat">
+            ${feedbackText.value}
+        </div>
+    </div>
+    `;
+    chatBox.scrollTop = chatBox.scrollHeight;
+    feedbackText.value = "";
+}
+
+function submitOnEnter(event){
+    if(event.which === 13 && !event.shiftKey){
+        event.preventDefault();
+        sendMsg();
+    }
+}
+
+feedbackText.addEventListener("keypress", submitOnEnter);
+
+sendBtn.onclick = () => {
+    sendMsg()
+}
+
+const prevFeedbacks = document.querySelectorAll(".prev-chat")
+prevFeedbacks.forEach(feedback => {
+    feedback.onclick = () => {
+        feedbackText.value = feedback.innerHTML.trim();
+    }
+  });
